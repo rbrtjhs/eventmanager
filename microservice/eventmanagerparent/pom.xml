@@ -7,7 +7,8 @@
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <modules>
-        <module>event</module>
+        <module>event-command</module>
+        <module>event-query</module>
     </modules>
     <name>eventmanagerparent</name>
     <description>eventmanagerparent</description>

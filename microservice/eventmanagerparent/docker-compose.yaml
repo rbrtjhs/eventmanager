@@ -1,15 +1,28 @@
 services:
-  event-db:
+  event-command-db:
     image: mysql:8.0.31-debian
-    container_name: event-db
-    ports:
-      - "3306:3306"
+    container_name: event-command-db
     environment:
       - MYSQL_ROOT_PASSWORD=root
     volumes:
-      - ./event/src/main/resources/sql/:/docker-entrypoint-initdb.d/
+      - ./event-command/src/main/resources/sql/:/docker-entrypoint-initdb.d/
     networks:
-      - event-network
+      - event-command-network
+    ports:
+      - "3306:3306"
+
+  event-query-db:
+    image: mysql:8.0.31-debian
+    container_name: event-query-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./event-query/src/main/resources/sql/:/docker-entrypoint-initdb.d/
+    networks:
+      - event-query-network
+    ports:
+      - "3307:3306"
 
 networks:
-  event-network: {}
+  event-command-network: {}
+  event-query-network: {}
