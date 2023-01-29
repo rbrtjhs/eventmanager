@@ -1,0 +1,15 @@
+services:
+  event-db:
+    image: mysql:8.0.31-debian
+    container_name: event-db
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./event/src/main/resources/sql/:/docker-entrypoint-initdb.d/
+    networks:
+      - event-network
+
+networks:
+  event-network: {}
