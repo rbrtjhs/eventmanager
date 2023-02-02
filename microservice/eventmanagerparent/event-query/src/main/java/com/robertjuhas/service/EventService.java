@@ -20,4 +20,8 @@ public class EventService {
     public List<EventEntity> findByUserID(String userID) {
         return eventRepository.findAllByUserID(userID);
     }
+
+    public void save(Object o) {
+        System.out.println("Object: " + o);
+    }
 }

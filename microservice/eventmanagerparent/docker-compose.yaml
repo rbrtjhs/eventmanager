@@ -6,10 +6,8 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     volumes:
       - ./event-command/src/main/resources/sql/:/docker-entrypoint-initdb.d/
-    networks:
-      - event-command-network
     ports:
-      - "3306:3306"
+      - "${EVENT_COMMAND_DB}:3306"
 
   event-query-db:
     image: mysql:8.0.31-debian
@@ -18,11 +16,43 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     volumes:
       - ./event-query/src/main/resources/sql/:/docker-entrypoint-initdb.d/
-    networks:
-      - event-query-network
     ports:
-      - "3307:3306"
+      - "${EVENT_QUERY_DB}:3306"
 
-networks:
-  event-command-network: {}
-  event-query-network: {}
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.0.1
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "${ZOOKEEPER_CLIENT_PORT}:2181"
+
+  message-broker:
+    image: confluentinc/cp-kafka:7.0.1
+    container_name: message-broker
+    ports:
+      - ${BROKER_EXTERNAL_PORT}:29092
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://message-broker:${BROKER_INTERNAL_PORT},PLAINTEXT_HOST://localhost:${BROKER_EXTERNAL_PORT}
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: broker-ui
+    ports:
+      - "${KAFKA_UI_PORT}:8080"
+    depends_on:
+      - zookeeper
+      - message-broker
+    environment:
+      KAFKA_CLUSTERS_0_NAME: primary #default cluster name
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: 'message-broker:${BROKER_INTERNAL_PORT}'
+      KAFKA_CLUSTERS_0_ZOOKEEPER: 'zookeeper:${ZOOKEEPER_CLIENT_PORT}'
