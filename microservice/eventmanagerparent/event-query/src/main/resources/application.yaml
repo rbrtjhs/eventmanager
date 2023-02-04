@@ -11,8 +11,15 @@ spring:
       ddl-auto: none
     database-platform: org.hibernate.dialect.MySQL55Dialect
   kafka:
-    producer:
-      bootstrap-servers: http://localhost:9092
-
+    consumer:
+      bootstrap-servers: localhost:29092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: earliest
+      properties:
+        spring.json.trusted.packages: "*"
 server:
   port: 8081
+logging:
+  level:
+    org.apache.kafka: INFO #DEBUG

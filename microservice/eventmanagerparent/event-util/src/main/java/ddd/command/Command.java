@@ -1,4 +1,4 @@
-package com.robertjuhas.ddd;
+package ddd.command;
 
 public interface Command {
 }

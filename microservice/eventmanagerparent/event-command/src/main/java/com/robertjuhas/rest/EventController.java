@@ -1,6 +1,6 @@
 package com.robertjuhas.rest;
 
-import com.robertjuhas.dto.web.request.CreateEventRequestDTO;
+import com.robertjuhas.dto.rest.request.CreateEventRequestDTO;
 import com.robertjuhas.service.EventService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

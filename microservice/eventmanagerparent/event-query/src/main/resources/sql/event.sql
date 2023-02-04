@@ -13,8 +13,7 @@ CREATE TABLE event
 
 CREATE TABLE event_processed
 (
+    event_id CHAR(36) NOT NULL PRIMARY KEY,
     aggregate_id CHAR(36) NOT NULL,
-    event_id CHAR(36) NOT NULL,
-    PRIMARY KEY (aggregate_id, event_id),
     FOREIGN KEY (aggregate_id) REFERENCES event(aggregate_id)
 )

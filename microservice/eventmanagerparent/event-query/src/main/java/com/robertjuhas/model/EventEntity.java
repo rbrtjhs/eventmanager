@@ -3,11 +3,9 @@ package com.robertjuhas.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Data
 @Table(name = "event")
@@ -15,7 +13,8 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 public class EventEntity {
     @Id
-    private String id;
+    @Column(name = "aggregate_id")
+    private String aggregateID;
 
     private String title;
 
@@ -25,4 +24,7 @@ public class EventEntity {
 
     @Column(name = "user_id")
     private String userID;
+
+    @OneToMany(mappedBy = "aggregateID", cascade = {CascadeType.ALL})
+    private List<EventProcessed> eventProcessed;
 }
