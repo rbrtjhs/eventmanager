@@ -7,7 +7,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>event-query</artifactId>
+    <artifactId>event-query-service</artifactId>
     <packaging>jar</packaging>
 
     <name>event-query</name>

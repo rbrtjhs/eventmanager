@@ -7,10 +7,10 @@
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <modules>
-        <module>event-command</module>
-        <module>event-query</module>
-        <module>event-util</module>
-        <module>user</module>
+        <module>event/event-command-service</module>
+        <module>event/event-query-service</module>
+        <module>event/event-util</module>
+        <module>user/user-service</module>
     </modules>
     <name>eventmanagerparent</name>
     <description>eventmanagerparent</description>
