@@ -1,7 +1,7 @@
 package com.robertjuhas.service;
 
 import com.robertjuhas.aggregator.EventAggregator;
-import com.robertjuhas.ddd.command.CreateEventCommandDTO;
+import com.robertjuhas.ddd.command.CreateEventCommand;
 import com.robertjuhas.dto.messaging.MessagingEventEventCreated;
 import com.robertjuhas.dto.rest.request.CreateEventRequestDTO;
 import com.robertjuhas.entity.EventEntity;
@@ -22,7 +22,7 @@ public class EventService {
     @Transactional("transactionManager")
     public void createEvent(CreateEventRequestDTO createEventRequestDTO) {
         var userID = "test";
-        var command = new CreateEventCommandDTO(createEventRequestDTO, userID);
+        var command = new CreateEventCommand(createEventRequestDTO, userID);
         var aggregate = new EventAggregator();
         var event = aggregate.process(command);
         var eventEntity = new EventEntity(aggregate.getId(), event);

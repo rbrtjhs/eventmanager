@@ -1,7 +1,7 @@
 package com.robertjuhas.aggregator;
 
-import com.robertjuhas.ddd.command.CreateEventCommandDTO;
-import com.robertjuhas.ddd.event.EventCreatedEvent;
+import com.robertjuhas.ddd.command.CreateEventCommand;
+import com.robertjuhas.ddd.event.AggregateEventEventCreated;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -11,9 +11,9 @@ public class EventAggregator {
     private String id;
     private EventRootEntity rootEntity;
 
-    public EventCreatedEvent process(CreateEventCommandDTO command) {
+    public AggregateEventEventCreated process(CreateEventCommand command) {
         this.id = UUID.randomUUID().toString();
         this.rootEntity = new EventRootEntity(command);
-        return new EventCreatedEvent(command);
+        return new AggregateEventEventCreated(command);
     }
 }
