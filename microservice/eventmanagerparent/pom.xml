@@ -10,6 +10,7 @@
         <module>event-command</module>
         <module>event-query</module>
         <module>event-util</module>
+        <module>user</module>
     </modules>
     <name>eventmanagerparent</name>
     <description>eventmanagerparent</description>
