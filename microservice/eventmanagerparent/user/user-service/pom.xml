@@ -5,12 +5,11 @@
         <groupId>com.robertjuhas</groupId>
         <artifactId>eventmanagerparent</artifactId>
         <version>1.0.0</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>user-service</artifactId>
     <packaging>jar</packaging>
-
-    <name>user</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -23,7 +23,7 @@ public class EventEntity {
     private ZonedDateTime time;
 
     @Column(name = "user_id")
-    private String userID;
+    private Long userID;
 
     @OneToMany(mappedBy = "aggregateID", cascade = {CascadeType.ALL})
     private List<EventProcessed> eventProcessed;

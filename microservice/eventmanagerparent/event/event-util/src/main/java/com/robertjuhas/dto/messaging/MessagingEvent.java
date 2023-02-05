@@ -1,6 +1,6 @@
 package com.robertjuhas.dto.messaging;
 
 public interface MessagingEvent {
-    String eventID();
+    long eventID();
     String aggregateID();
 }

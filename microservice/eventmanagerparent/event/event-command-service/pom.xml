@@ -4,18 +4,15 @@
         <artifactId>eventmanagerparent</artifactId>
         <groupId>com.robertjuhas</groupId>
         <version>1.0.0</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>event-command-service</artifactId>
     <packaging>jar</packaging>
 
-    <name>event</name>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jackson-databind.version>2.14.1</jackson-databind.version>
-        <hypersistence-utils-hibernate-55.version>3.1.1</hypersistence-utils-hibernate-55.version>
     </properties>
     <dependencies>
         <dependency>
@@ -34,16 +31,18 @@
         <dependency>
             <groupId>io.hypersistence</groupId>
             <artifactId>hypersistence-utils-hibernate-55</artifactId>
-            <version>${hypersistence-utils-hibernate-55.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         <dependency>
             <groupId>com.robertjuhas</groupId>

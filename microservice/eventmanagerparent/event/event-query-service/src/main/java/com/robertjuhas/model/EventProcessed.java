@@ -15,7 +15,7 @@ public class EventProcessed {
 
     @Id
     @Column(name = "event_id")
-    private String eventID;
+    private Long eventID;
 
     @Column(name = "aggregate_id")
     private String aggregateID;

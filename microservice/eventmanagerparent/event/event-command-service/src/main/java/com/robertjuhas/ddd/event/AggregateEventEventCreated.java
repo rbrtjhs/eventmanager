@@ -1,7 +1,6 @@
 package com.robertjuhas.ddd.event;
 
 import com.robertjuhas.ddd.command.CreateEventCommand;
-import ddd.event.AggregateEvent;
 
 import java.time.ZonedDateTime;
 
@@ -10,10 +9,10 @@ public record AggregateEventEventCreated(
         long capacity,
         String place,
         String title,
-        String userID
-) implements AggregateEvent {
+        long userID
+) implements AggregateEventEvent {
 
     public AggregateEventEventCreated(CreateEventCommand command) {
-        this(command.time(), command.capacity(), command.place(), command.title(), command.userID());
+        this(command.time(), command.capacity(), command.place(), command.title(), command.createdBy());
     }
 }

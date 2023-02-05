@@ -17,6 +17,9 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <hypersistence-utils-hibernate-55.version>3.1.1</hypersistence-utils-hibernate-55.version>
+        <!-- in order to comply with spring-boot-starter-web.spring-boot-starter-json -->
+        <jackson-databind.version>2.13.4</jackson-databind.version>
     </properties>
 
     <dependencyManagement>
@@ -34,21 +37,35 @@
                 <version>1.18.24</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>io.hypersistence</groupId>
+                <artifactId>hypersistence-utils-hibernate-55</artifactId>
+                <version>${hypersistence-utils-hibernate-55.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson-databind.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>
