@@ -6,8 +6,9 @@ import lombok.Getter;
 
 import java.util.UUID;
 
-@Getter
 public class EventAggregator {
+
+    @Getter
     private String id;
     private EventRootEntity rootEntity;
 
