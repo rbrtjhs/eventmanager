@@ -1,4 +1,4 @@
-package com.robertjuhas.ddd;
+package com.robertjuhas.ddd.command;
 
 import ddd.command.Command;
 

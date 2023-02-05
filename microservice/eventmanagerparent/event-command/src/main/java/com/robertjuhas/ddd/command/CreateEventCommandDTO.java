@@ -1,6 +1,5 @@
-package com.robertjuhas.dto.ddd.command;
+package com.robertjuhas.ddd.command;
 
-import com.robertjuhas.ddd.EventCommand;
 import com.robertjuhas.dto.rest.request.CreateEventRequestDTO;
 
 import java.time.ZonedDateTime;

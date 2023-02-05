@@ -1,7 +1,7 @@
-package com.robertjuhas.dto.ddd.event;
+package com.robertjuhas.ddd.event;
 
-import com.robertjuhas.dto.ddd.command.CreateEventCommandDTO;
-import ddd.Event;
+import com.robertjuhas.ddd.command.CreateEventCommandDTO;
+import ddd.event.AggregateEvent;
 
 import java.time.ZonedDateTime;
 
@@ -11,7 +11,7 @@ public record EventCreatedEvent(
         String place,
         String title,
         String userID
-) implements Event {
+) implements AggregateEvent {
 
     public EventCreatedEvent(CreateEventCommandDTO command) {
         this(command.time(), command.capacity(), command.place(), command.title(), command.userID());

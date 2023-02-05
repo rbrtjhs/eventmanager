@@ -1,6 +1,6 @@
 package com.robertjuhas.entity;
 
-import ddd.Event;
+import ddd.event.AggregateEvent;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,9 +33,9 @@ public class EventEntity {
     private Long version;
 
     @Type(type = "json")
-    private Event data;
+    private AggregateEvent data;
 
-    public EventEntity(String aggregateID, Event event) {
+    public EventEntity(String aggregateID, AggregateEvent event) {
         this.aggregateID = aggregateID;
         this.eventType = event.getClass().getSimpleName();
         this.data = event;

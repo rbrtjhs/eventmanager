@@ -1,7 +1,7 @@
 package com.robertjuhas.service;
 
 import com.robertjuhas.aggregator.EventAggregator;
-import com.robertjuhas.dto.ddd.command.CreateEventCommandDTO;
+import com.robertjuhas.ddd.command.CreateEventCommandDTO;
 import com.robertjuhas.dto.messaging.MessagingEventEventCreated;
 import com.robertjuhas.dto.rest.request.CreateEventRequestDTO;
 import com.robertjuhas.entity.EventEntity;
@@ -23,17 +23,17 @@ public class EventService {
     public void createEvent(CreateEventRequestDTO createEventRequestDTO) {
         var userID = "test";
         var command = new CreateEventCommandDTO(createEventRequestDTO, userID);
-        var eventAggregate = new EventAggregator();
-        var event = eventAggregate.process(command);
-        var eventEntity = new EventEntity(eventAggregate.getId(), event);
+        var aggregate = new EventAggregator();
+        var event = aggregate.process(command);
+        var eventEntity = new EventEntity(aggregate.getId(), event);
         eventRepository.save(eventEntity);
         var messagingEvent = new MessagingEventEventCreated(eventEntity.getEventID().toString(),
-                eventAggregate.getId(),
+                aggregate.getId(),
                 event.time(),
                 event.capacity(),
                 event.place(),
                 event.title(),
                 event.userID());
-        kafkaMessenger.send(eventAggregate.getId(), messagingEvent);
+        kafkaMessenger.send(aggregate.getId(), messagingEvent);
     }
 }

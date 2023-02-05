@@ -1,7 +1,7 @@
 package com.robertjuhas.aggregator;
 
-import com.robertjuhas.dto.ddd.command.CreateEventCommandDTO;
-import com.robertjuhas.dto.ddd.event.EventCreatedEvent;
+import com.robertjuhas.ddd.command.CreateEventCommandDTO;
+import com.robertjuhas.ddd.event.EventCreatedEvent;
 import lombok.Getter;
 
 import java.util.UUID;

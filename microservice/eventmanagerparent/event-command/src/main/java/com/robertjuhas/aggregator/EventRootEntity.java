@@ -1,6 +1,6 @@
 package com.robertjuhas.aggregator;
 
-import com.robertjuhas.dto.ddd.command.CreateEventCommandDTO;
+import com.robertjuhas.ddd.command.CreateEventCommandDTO;
 
 import java.time.ZonedDateTime;
 
