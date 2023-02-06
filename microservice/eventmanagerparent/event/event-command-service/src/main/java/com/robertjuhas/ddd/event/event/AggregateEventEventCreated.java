@@ -1,6 +1,7 @@
-package com.robertjuhas.ddd.event;
+package com.robertjuhas.ddd.event.event;
 
-import com.robertjuhas.ddd.command.CreateEventCommand;
+import com.robertjuhas.ddd.command.event.CreateEventCommand;
+import com.robertjuhas.ddd.event.AggregateEventEvent;
 
 import java.time.ZonedDateTime;
 

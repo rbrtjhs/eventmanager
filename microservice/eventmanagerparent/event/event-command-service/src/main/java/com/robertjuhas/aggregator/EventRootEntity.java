@@ -1,12 +1,12 @@
 package com.robertjuhas.aggregator;
 
-import com.robertjuhas.ddd.command.CreateEventCommand;
+import com.robertjuhas.ddd.command.event.CreateEventCommand;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -16,8 +16,8 @@ public class EventRootEntity {
     private String place;
     private String title;
     private long createdBy;
-    private List<Long> subscribers;
+    private Map<Long, UserSubscribedData> subscribers;
     public EventRootEntity(CreateEventCommand command) {
-        this(command.time(), command.capacity(), command.place(), command.title(), command.createdBy(), new ArrayList<>());
+        this(command.time(), command.capacity(), command.place(), command.title(), command.createdBy(), new HashMap<>());
     }
 }

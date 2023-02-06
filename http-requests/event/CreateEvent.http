@@ -2,7 +2,7 @@ POST http://localhost:8080/event
 Content-Type: application/json
 
 {
-  "time" : "2023-02-02T15:00:00.000+0100",
+  "time" : "2024-02-02T15:00:00.000+0100",
   "place" : "Test place",
   "capacity" : 50,
   "title" : "Test Event!"

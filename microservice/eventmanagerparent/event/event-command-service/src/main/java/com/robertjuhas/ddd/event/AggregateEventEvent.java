@@ -3,6 +3,9 @@ package com.robertjuhas.ddd.event;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.robertjuhas.ddd.event.event.AggregateEventEventCreated;
+import com.robertjuhas.ddd.event.event.AggregateEventEventUpdated;
+import com.robertjuhas.ddd.event.event.AggregateEventUserSubscribed;
 import ddd.event.AggregateEvent;
 
 @JsonTypeInfo(
@@ -12,12 +15,16 @@ import ddd.event.AggregateEvent;
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(
-                name = "com.robertjuhas.ddd.event.AggregateEventEventCreated",
+                name = "com.robertjuhas.ddd.event.event.AggregateEventEventCreated",
                 value = AggregateEventEventCreated.class
         ),
         @JsonSubTypes.Type(
-                name = "com.robertjuhas.ddd.event.AggregateEventEventUpdated",
+                name = "com.robertjuhas.ddd.event.event.AggregateEventEventUpdated",
                 value = AggregateEventEventUpdated.class
+        ),
+        @JsonSubTypes.Type(
+                name = "com.robertjuhas.ddd.event.AggregateEventEventSubscribed",
+                value = AggregateEventUserSubscribed.class
         ),
 })
 public interface AggregateEventEvent extends AggregateEvent {

@@ -23,12 +23,10 @@ public class EventEntity {
     @Column(name = "event_id")
     private Long eventID;
 
-    @Column(name = "event_type")
-    private String eventType;
-
     @Column(name = "aggregate_id")
     private String aggregateID;
 
+    //TODO: fix this, this doesn't work
     @Version
     private Long version;
 
@@ -37,7 +35,6 @@ public class EventEntity {
 
     public EventEntity(String aggregateID, AggregateEventEvent event) {
         this.aggregateID = aggregateID;
-        this.eventType = event.getClass().getName();
         this.data = event;
     }
 }
