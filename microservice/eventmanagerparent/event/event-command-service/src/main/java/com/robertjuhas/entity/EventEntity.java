@@ -23,18 +23,14 @@ public class EventEntity {
     @Column(name = "event_id")
     private Long eventID;
 
-    @Column(name = "aggregate_id")
-    private String aggregateID;
-
-    //TODO: fix this, this doesn't work
-    @Version
-    private Long version;
-
     @Type(type = "json")
     private AggregateEventEvent data;
 
-    public EventEntity(String aggregateID, AggregateEventEvent event) {
-        this.aggregateID = aggregateID;
+    @ManyToOne
+    @JoinColumn(name = "aggregate_id")
+    private AggregateEntity aggregate;
+
+    public EventEntity(AggregateEventEvent event) {
         this.data = event;
     }
 }

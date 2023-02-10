@@ -8,6 +8,7 @@ import com.robertjuhas.ddd.event.event.AggregateEventEventCreated;
 import com.robertjuhas.ddd.event.event.AggregateEventUserSubscribed;
 import com.robertjuhas.ddd.event.event.AggregateEventEventUpdated;
 import com.robertjuhas.ddd.event.event.AggregateEventUserUnsubscribed;
+import com.robertjuhas.entity.AggregateEntity;
 import com.robertjuhas.entity.EventEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,9 +30,9 @@ public class EventAggregator {
     private String id;
     private EventRootEntity rootEntity;
 
-    public EventAggregator(List<EventEntity> eventEntities, String aggregateID) {
-        this.id = aggregateID;
-        for (EventEntity eventEntity : eventEntities) {
+    public EventAggregator(AggregateEntity aggregate) {
+        this.id = aggregate.getId();
+        for (EventEntity eventEntity : aggregate.getEvents()) {
             try {
                 this.getClass().getMethod("apply", eventEntity.getData().getClass()).invoke(this, eventEntity.getData());
             } catch (Exception e) {
