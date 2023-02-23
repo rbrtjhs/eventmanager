@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.robertjuhas.ddd.event.event.AggregateEventEventCreated;
 import com.robertjuhas.ddd.event.event.AggregateEventEventUpdated;
 import com.robertjuhas.ddd.event.event.AggregateEventUserSubscribed;
+import com.robertjuhas.ddd.event.event.AggregateEventUserUnsubscribed;
 import ddd.event.AggregateEvent;
 
 @JsonTypeInfo(
@@ -26,6 +27,10 @@ import ddd.event.AggregateEvent;
                 name = "com.robertjuhas.ddd.event.AggregateEventEventSubscribed",
                 value = AggregateEventUserSubscribed.class
         ),
+        @JsonSubTypes.Type(
+                name = "com.robertjuhas.ddd.event.AggregateEventUserUnsubscribed",
+                value = AggregateEventUserUnsubscribed.class
+        )
 })
 public interface AggregateEventEvent extends AggregateEvent {
 }

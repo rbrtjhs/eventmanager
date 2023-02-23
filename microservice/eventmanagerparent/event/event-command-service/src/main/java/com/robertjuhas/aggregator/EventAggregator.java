@@ -5,20 +5,17 @@ import com.robertjuhas.ddd.command.event.SubscribeToEventCommand;
 import com.robertjuhas.ddd.command.event.UnsubscribeFromEventCommand;
 import com.robertjuhas.ddd.command.event.UpdateEventCommand;
 import com.robertjuhas.ddd.event.event.AggregateEventEventCreated;
-import com.robertjuhas.ddd.event.event.AggregateEventUserSubscribed;
 import com.robertjuhas.ddd.event.event.AggregateEventEventUpdated;
+import com.robertjuhas.ddd.event.event.AggregateEventUserSubscribed;
 import com.robertjuhas.ddd.event.event.AggregateEventUserUnsubscribed;
 import com.robertjuhas.entity.AggregateEntity;
 import com.robertjuhas.entity.EventEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -53,33 +50,33 @@ public class EventAggregator {
         if (rootEntity.getCapacity() != command.capacity()) {
             rootEntity.setCapacity(command.capacity());
             returnValue.capacity(command.capacity());
-            updated = updated || true;
+            updated = true;
         }
         if (!rootEntity.getPlace().equals(command.place())) {
             rootEntity.setPlace(command.place());
             returnValue.place(command.place());
-            updated = updated || true;
+            updated = true;
         }
         if (!rootEntity.getTitle().equals(command.title())) {
             rootEntity.setTitle(command.title());
             returnValue.title(command.title());
-            updated = updated || true;
+            updated = true;
         }
         if (!rootEntity.getTime().equals(command.time())) {
             validateTime(command.time());
             rootEntity.setTime(command.time());
             returnValue.time(command.time());
-            updated = updated || true;
+            updated = true;
         }
         return updated ? returnValue.build() : null;
     }
 
     public AggregateEventUserSubscribed process(SubscribeToEventCommand command) {
         if (rootEntity.getSubscribers().containsKey(command.userID())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is already subscribed.");
+            throw new IllegalArgumentException("User is already subscribed.");
         }
         if (rootEntity.getSubscribers().size() == rootEntity.getCapacity()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Event is full.");
+            throw new IllegalArgumentException("Event is full.");
         }
         var userData = new UserSubscribedData(command.time());
         rootEntity.getSubscribers().put(command.userID(), userData);
@@ -88,7 +85,7 @@ public class EventAggregator {
 
     public AggregateEventUserUnsubscribed process(UnsubscribeFromEventCommand command) {
         if (!rootEntity.getSubscribers().containsKey(command.userID())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is not subscribed.");
+            throw new IllegalArgumentException("User is not subscribed.");
         }
         rootEntity.getSubscribers().remove(command.userID());
         return new AggregateEventUserUnsubscribed(command.userID());
@@ -96,7 +93,7 @@ public class EventAggregator {
 
     private void validateTime(ZonedDateTime zonedDateTime) {
         if (ChronoUnit.HOURS.between(rootEntity.getTime(), zonedDateTime) <= PROHIBIT_CHANGING_TIME_BEFORE_EVENT_IN_HOURS) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot change time " + PROHIBIT_CHANGING_TIME_BEFORE_EVENT_IN_HOURS + " hours before event starts.");
+            throw new IllegalArgumentException("Cannot change time " + PROHIBIT_CHANGING_TIME_BEFORE_EVENT_IN_HOURS + " hours before event starts.");
         }
     }
 

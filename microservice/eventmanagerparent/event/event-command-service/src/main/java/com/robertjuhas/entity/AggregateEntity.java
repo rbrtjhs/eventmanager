@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OptimisticLock;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class AggregateEntity {
     private long version;
 
     @OneToMany(mappedBy = "aggregate", cascade = CascadeType.ALL)
+    @OptimisticLock(excluded = false)
     private List<EventEntity> events;
 
     public AggregateEntity(String id, String type) {
