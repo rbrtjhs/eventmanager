@@ -11,8 +11,6 @@
     <artifactId>event-util</artifactId>
     <packaging>jar</packaging>
 
-    <name>event-util</name>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

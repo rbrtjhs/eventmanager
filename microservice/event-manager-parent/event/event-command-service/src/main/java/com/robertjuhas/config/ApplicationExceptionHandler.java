@@ -1,5 +1,6 @@
 package com.robertjuhas.config;
 
+import com.robertjuhas.exception.EventManagerException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,8 +12,8 @@ import java.util.NoSuchElementException;
 @ControllerAdvice
 public class ApplicationExceptionHandler {
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> badRequest(IllegalArgumentException ex) {
+    @ExceptionHandler(EventManagerException.class)
+    public ResponseEntity<String> badRequest(EventManagerException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 

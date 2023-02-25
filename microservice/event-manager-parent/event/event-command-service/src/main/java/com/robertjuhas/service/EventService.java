@@ -1,7 +1,7 @@
 package com.robertjuhas.service;
 
 import com.robertjuhas.aggregator.AggregateType;
-import com.robertjuhas.aggregator.EventAggregator;
+import com.robertjuhas.aggregator.EventAggregate;
 import com.robertjuhas.ddd.command.event.CreateEventCommand;
 import com.robertjuhas.ddd.command.event.SubscribeToEventCommand;
 import com.robertjuhas.ddd.command.event.UnsubscribeFromEventCommand;
@@ -14,10 +14,6 @@ import com.robertjuhas.entity.AggregateEntity;
 import com.robertjuhas.entity.EventEntity;
 import com.robertjuhas.messenger.KafkaMessenger;
 import com.robertjuhas.repository.AggregateRepository;
-import com.robertjuhas.rest.dto.request.CreateEventRequestDTO;
-import com.robertjuhas.rest.dto.request.SubscribeToEventRequestDTO;
-import com.robertjuhas.rest.dto.request.UnsubscribeFromEventRequestDTO;
-import com.robertjuhas.rest.dto.request.UpdateEventRequestDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -35,10 +31,8 @@ public class EventService {
     private KafkaMessenger kafkaMessenger;
 
     @Transactional("transactionManager")
-    public String createEvent(CreateEventRequestDTO request) {
-        var userID = 1L;
-        var command = new CreateEventCommand(request, userID);
-        var aggregate = new EventAggregator();
+    public String createEvent(CreateEventCommand command) {
+        var aggregate = new EventAggregate();
         var aggregateEvent = aggregate.process(command);
         var aggregateEntity = new AggregateEntity(aggregate.getId(), AggregateType.EVENT.name());
         var eventEntity = saveEvent(aggregateEntity, aggregateEvent);
@@ -54,11 +48,11 @@ public class EventService {
     }
 
     @Transactional("transactionManager")
-    public void updateEvent(UpdateEventRequestDTO request) {
-        var aggregateEntity = aggregateRepository.findByIDWithEvents(request.aggregateID());
+    public void updateEvent(UpdateEventCommand updateEventCommand) {
+        var aggregateEntity = aggregateRepository.findByIDWithEvents(updateEventCommand.aggregateID());
         checkAggregateExists(aggregateEntity);
-        var aggregate = new EventAggregator(aggregateEntity);
-        var aggregateEvent = aggregate.process(new UpdateEventCommand(request));
+        var aggregate = new EventAggregate(aggregateEntity);
+        var aggregateEvent = aggregate.process(updateEventCommand);
         if (aggregateEvent != null) {
             var eventEntity = saveEvent(aggregateEntity, aggregateEvent);
             var messagingEvent = new MessagingEventEventUpdated(eventEntity.getEventID(), aggregate.getId(), aggregateEvent.getTime(), aggregateEvent.getCapacity(), aggregateEvent.getPlace(), aggregateEvent.getTitle());
@@ -67,24 +61,22 @@ public class EventService {
     }
 
     @Transactional("transactionManager")
-    public void subscribeToEvent(SubscribeToEventRequestDTO request) {
-        long userID = 1L;
-        var aggregateEntity = aggregateRepository.findByIDWithEvents(request.aggregateID());
+    public void subscribeToEvent(SubscribeToEventCommand command) {
+        var aggregateEntity = aggregateRepository.findByIDWithEvents(command.getAggregateID());
         checkAggregateExists(aggregateEntity);
-        var aggregate = new EventAggregator(aggregateEntity);
-        var aggregateEvent = aggregate.process(new SubscribeToEventCommand(userID));
+        var aggregate = new EventAggregate(aggregateEntity);
+        var aggregateEvent = aggregate.process(command);
         var eventEntity = saveEvent(aggregateEntity, aggregateEvent);
         var messagingEvent = new MessagingEventEventSubscription(eventEntity.getEventID(), aggregate.getId(), NUMBER_OF_USERS_SUBSCRIBED);
         kafkaMessenger.sendUserSubscription(aggregate.getId(), messagingEvent);
     }
 
     @Transactional("transactionManager")
-    public void unsubscribeFromEvent(UnsubscribeFromEventRequestDTO request) {
-        long userID = 1L;
-        var aggregateEntity = aggregateRepository.findByIDWithEvents(request.aggregateID());
+    public void unsubscribeFromEvent(UnsubscribeFromEventCommand command) {
+        var aggregateEntity = aggregateRepository.findByIDWithEvents(command.aggregateID());
         checkAggregateExists(aggregateEntity);
-        var aggregate = new EventAggregator(aggregateEntity);
-        var aggregateEvent = aggregate.process(new UnsubscribeFromEventCommand(userID));
+        var aggregate = new EventAggregate(aggregateEntity);
+        var aggregateEvent = aggregate.process(command);
         var eventEntity = saveEvent(aggregateEntity, aggregateEvent);
         var messagingEvent = new MessagingEventEventSubscription(eventEntity.getEventID(), aggregate.getId(), NUMBER_OF_USERS_UNSUBSCRIBED);
         kafkaMessenger.sendUserSubscription(aggregate.getId(), messagingEvent);
