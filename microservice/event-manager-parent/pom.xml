@@ -11,6 +11,8 @@
         <module>event/event-query-service</module>
         <module>event/event-util</module>
         <module>user/user-service</module>
+        <module>messaging/event-messaging</module>
+        <module>messaging/user-messaging</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

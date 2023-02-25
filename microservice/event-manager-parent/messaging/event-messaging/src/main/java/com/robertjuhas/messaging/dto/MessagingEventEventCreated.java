@@ -1,4 +1,4 @@
-package com.robertjuhas.dto.messaging;
+package com.robertjuhas.messaging.dto;
 
 import java.time.ZonedDateTime;
 

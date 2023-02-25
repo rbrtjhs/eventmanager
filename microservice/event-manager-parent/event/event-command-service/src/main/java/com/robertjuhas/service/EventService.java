@@ -7,11 +7,12 @@ import com.robertjuhas.ddd.command.event.SubscribeToEventCommand;
 import com.robertjuhas.ddd.command.event.UnsubscribeFromEventCommand;
 import com.robertjuhas.ddd.command.event.UpdateEventCommand;
 import com.robertjuhas.ddd.event.AggregateEventEvent;
-import com.robertjuhas.dto.messaging.MessagingEventEventCreated;
-import com.robertjuhas.dto.messaging.MessagingEventEventSubscription;
-import com.robertjuhas.dto.messaging.MessagingEventEventUpdated;
 import com.robertjuhas.entity.AggregateEntity;
 import com.robertjuhas.entity.EventEntity;
+import com.robertjuhas.messaging.dto.MessagingEventEventCreated;
+import com.robertjuhas.messaging.dto.MessagingEventEventSubscription;
+import com.robertjuhas.messaging.dto.MessagingEventEventUpdated;
+import com.robertjuhas.messaging.dto.MessagingEventEventUpdatedUser;
 import com.robertjuhas.messenger.KafkaMessenger;
 import com.robertjuhas.repository.AggregateRepository;
 import lombok.AllArgsConstructor;
@@ -55,8 +56,14 @@ public class EventService {
         var aggregateEvent = aggregate.process(updateEventCommand);
         if (aggregateEvent != null) {
             var eventEntity = saveEvent(aggregateEntity, aggregateEvent);
-            var messagingEvent = new MessagingEventEventUpdated(eventEntity.getEventID(), aggregate.getId(), aggregateEvent.getTime(), aggregateEvent.getCapacity(), aggregateEvent.getPlace(), aggregateEvent.getTitle());
-            kafkaMessenger.sendEventUpdated(aggregate.getId(), messagingEvent);
+            var eventUpdated = new MessagingEventEventUpdated(eventEntity.getEventID(),
+                    aggregate.getId(),
+                    aggregateEvent.getTime(),
+                    aggregateEvent.getCapacity(),
+                    aggregateEvent.getPlace(),
+                    aggregateEvent.getTitle(),
+                    aggregate.getUsers());
+            kafkaMessenger.sendEventUpdated(aggregate.getId(), eventUpdated);
         }
     }
 

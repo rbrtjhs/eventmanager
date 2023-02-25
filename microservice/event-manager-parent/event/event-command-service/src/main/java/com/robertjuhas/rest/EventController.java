@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/event")
-public record EventController(EventService eventService) {
+public record
+EventController(EventService eventService) {
 
     @PostMapping
     public ResponseEntity createEvent(@RequestBody CreateEventRequestDTO request) {

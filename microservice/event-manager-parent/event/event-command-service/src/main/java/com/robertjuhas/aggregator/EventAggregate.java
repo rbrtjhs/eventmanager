@@ -18,9 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @NoArgsConstructor
 public class EventAggregate {
@@ -40,6 +38,10 @@ public class EventAggregate {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public List<Long> getUsers() {
+        return new ArrayList<>(rootEntity.getSubscribers().keySet());
     }
 
     public AggregateEventEventCreated process(@NotNull CreateEventCommand command) {

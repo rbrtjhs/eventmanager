@@ -1,8 +1,8 @@
 package com.robertjuhas.service;
 
-import com.robertjuhas.dto.messaging.MessagingEventEventCreated;
-import com.robertjuhas.dto.messaging.MessagingEventEventSubscription;
-import com.robertjuhas.dto.messaging.MessagingEventEventUpdated;
+import com.robertjuhas.messaging.dto.MessagingEventEventCreated;
+import com.robertjuhas.messaging.dto.MessagingEventEventSubscription;
+import com.robertjuhas.messaging.dto.MessagingEventEventUpdated;
 import com.robertjuhas.model.EventEntity;
 import com.robertjuhas.model.EventProcessed;
 import com.robertjuhas.repository.EventRepository;
