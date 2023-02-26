@@ -15,8 +15,8 @@ public class SubscribeToEventCommand implements EventCommand {
     private long userID;
     private ZonedDateTime time;
 
-    public SubscribeToEventCommand(@NotNull SubscribeToEventRequestDTO request, @Positive long userID) {
-        this(request.aggregateID(), userID, ZonedDateTime.now());
+    public SubscribeToEventCommand(@NotNull SubscribeToEventRequestDTO request) {
+        this(request.aggregateID(), request.userID(), ZonedDateTime.now());
     }
 
     private SubscribeToEventCommand(

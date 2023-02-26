@@ -104,7 +104,7 @@ public class EventAggregateUnitTest {
     public void subscribeToEventAggregate() {
         String aggregateID = "1";
         long userID = 1;
-        var command = new SubscribeToEventCommand(new SubscribeToEventRequestDTO(aggregateID), userID);
+        var command = new SubscribeToEventCommand(new SubscribeToEventRequestDTO(aggregateID, userID));
         var event = eventAggregate.process(command);
         assertThat(event).isNotNull();
         assertThat(event.userID()).isEqualTo(userID);
@@ -115,7 +115,7 @@ public class EventAggregateUnitTest {
     public void subscrtibeToEvenMoreThanOnce() {
         String aggregateID = "1";
         long userID = 1;
-        var command = new SubscribeToEventCommand(new SubscribeToEventRequestDTO(aggregateID), userID);
+        var command = new SubscribeToEventCommand(new SubscribeToEventRequestDTO(aggregateID, userID));
         eventAggregate.process(command);
         assertThatThrownBy(() -> eventAggregate.process(command)).isInstanceOf(EventManagerException.class);
     }
@@ -124,7 +124,7 @@ public class EventAggregateUnitTest {
     public void unsubscribeFromEventAggregate() {
         String aggregateID = "1";
         long userID = 1;
-        eventAggregate.process(new SubscribeToEventCommand(new SubscribeToEventRequestDTO(aggregateID), userID));
+        eventAggregate.process(new SubscribeToEventCommand(new SubscribeToEventRequestDTO(aggregateID, userID)));
         var unsubscribedEvent = eventAggregate.process(new UnsubscribeFromEventCommand(aggregateID, userID));
         assertThat(unsubscribedEvent).isNotNull();
         assertThat(unsubscribedEvent.userID()).isEqualTo(userID);

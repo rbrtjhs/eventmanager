@@ -2,6 +2,6 @@ POST http://localhost:8082/user
 Content-Type: application/json
 
 {
-  "username" : "subscriber@gmail.com",
+  "username" : "eventsubscriber@gmail.com",
   "password" : "password"
 }

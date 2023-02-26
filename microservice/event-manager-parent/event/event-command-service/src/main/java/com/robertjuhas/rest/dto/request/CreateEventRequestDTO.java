@@ -16,5 +16,7 @@ public record CreateEventRequestDTO(
         @NotEmpty
         String place,
         @NotEmpty
-        String title) {
+        String title,
+        @Positive
+        long createdBy) {
 }

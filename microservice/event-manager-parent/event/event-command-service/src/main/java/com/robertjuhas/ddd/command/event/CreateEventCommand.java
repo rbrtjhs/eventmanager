@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 public record CreateEventCommand(@NotNull ZonedDateTime time, @Positive long capacity, @NotBlank String place,
                                  @NotBlank String title, @Positive long createdBy) implements EventCommand {
 
-    public CreateEventCommand(@NotNull CreateEventRequestDTO createEventRequestDTO, @Positive long createdBy) {
-        this(createEventRequestDTO.time(), createEventRequestDTO.capacity(), createEventRequestDTO.place(), createEventRequestDTO.title(), createdBy);
+    public CreateEventCommand(@NotNull CreateEventRequestDTO createEventRequestDTO) {
+        this(createEventRequestDTO.time(), createEventRequestDTO.capacity(), createEventRequestDTO.place(), createEventRequestDTO.title(), createEventRequestDTO.createdBy());
     }
 }

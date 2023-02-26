@@ -19,8 +19,7 @@ EventController(EventService eventService) {
 
     @PostMapping
     public ResponseEntity createEvent(@RequestBody CreateEventRequestDTO request) {
-        long userID = 1L;
-        var command = new CreateEventCommand(request, userID);
+        var command = new CreateEventCommand(request);
         String aggregateID = eventService.createEvent(command);
         return ResponseEntity.ok(aggregateID);
     }
@@ -33,15 +32,13 @@ EventController(EventService eventService) {
 
     @PostMapping("/subscribe")
     public ResponseEntity subscribeToEvent(@RequestBody SubscribeToEventRequestDTO request) {
-        long userID = 1L;
-        eventService.subscribeToEvent(new SubscribeToEventCommand(request, userID));
+        eventService.subscribeToEvent(new SubscribeToEventCommand(request));
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/unsubscribe")
     public ResponseEntity unsubscribeFromEvent(@RequestBody UnsubscribeFromEventRequestDTO request) {
-        long userID = 1L;
-        eventService.unsubscribeFromEvent(new UnsubscribeFromEventCommand(request.aggregateID(), userID));
+        eventService.unsubscribeFromEvent(new UnsubscribeFromEventCommand(request));
         return ResponseEntity.ok().build();
     }
 }

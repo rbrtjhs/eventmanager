@@ -1,4 +1,9 @@
 package com.robertjuhas.rest.dto.request;
 
-public record UnsubscribeFromEventRequestDTO(String aggregateID) {
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
+
+public record UnsubscribeFromEventRequestDTO(@NotBlank String aggregateID,
+                                             @Positive
+                                             long userID) {
 }

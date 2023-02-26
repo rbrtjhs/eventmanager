@@ -93,7 +93,7 @@ public class EventServiceUnitTest {
     public void subscribeToEvent() {
         var subscribedUser = 5L;
         var aggregateID = "1";
-        var subscribeToEventCommand = new SubscribeToEventCommand(new SubscribeToEventRequestDTO(aggregateID), subscribedUser);
+        var subscribeToEventCommand = new SubscribeToEventCommand(new SubscribeToEventRequestDTO(aggregateID, subscribedUser));
 
         var aggregateEntity = createAggregateEntity();
         addCreatedEvent(aggregateEntity);

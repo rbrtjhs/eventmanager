@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 public record UnsubscribeFromEventCommand(@NotBlank String aggregateID, @Positive long userID) {
-    public UnsubscribeFromEventCommand(@NotNull UnsubscribeFromEventRequestDTO requestDTO, @Positive long userID) {
-        this(requestDTO.aggregateID(), userID);
+    public UnsubscribeFromEventCommand(@NotNull UnsubscribeFromEventRequestDTO requestDTO) {
+        this(requestDTO.aggregateID(), requestDTO.userID());
     }
 }
