@@ -13,6 +13,7 @@
         <module>user/user-service</module>
         <module>messaging/event-messaging</module>
         <module>messaging/user-messaging</module>
+        <module>notification/notification-service</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

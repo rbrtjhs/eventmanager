@@ -38,7 +38,7 @@ public class UserService {
         var subscriptions = subscriptionRepository.findBySubscribedTo(eventCreated.userID());
         if (subscriptions != null && !subscriptions.isEmpty()) {
             var notifyUsers = subscriptions.stream().map(x -> x.getSubscriber().getUsername()).toList();
-            var messagingEvent = new MessagingEventNotifyUsersEventCreated(eventCreated.time(), eventCreated.capacity(), eventCreated.title(), eventCreated.title(), notifyUsers);
+            var messagingEvent = new MessagingEventNotifyUsersEventCreated(eventCreated.time(), eventCreated.capacity(), eventCreated.place(), eventCreated.title(), notifyUsers, eventCreated.eventID(), subscriptions.get(0).getSubscribedTo().getUsername());
             kafkaMessenger.eventCreatedNotifyUsers(messagingEvent);
         }
     }
@@ -47,7 +47,7 @@ public class UserService {
         var subscriptions = userRepository.findAllById(eventUpdated.users());
         if (!subscriptions.isEmpty()) {
             var notifyUsers = subscriptions.stream().map(x -> x.getUsername()).toList();
-            var messagingEvent = new MessagingEventNotifyUsersEventUpdated(eventUpdated.time(), eventUpdated.capacity(), eventUpdated.place(), eventUpdated.title(), notifyUsers);
+            var messagingEvent = new MessagingEventNotifyUsersEventUpdated(eventUpdated.title(), notifyUsers, eventUpdated.eventID());
             kafkaMessenger.eventUpdatedNotifyUsers(messagingEvent);
         }
     }

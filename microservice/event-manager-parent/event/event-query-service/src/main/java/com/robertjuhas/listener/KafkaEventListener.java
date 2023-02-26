@@ -14,24 +14,22 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class KafkaEventListener {
 
-    private static final String GROUP_ID = "event-query";
-
     private EventService eventService;
 
-    @KafkaListener(topics = {EventTopic.TOPIC_EVENT_CREATED}, concurrency = "1", groupId = GROUP_ID)
+    @KafkaListener(topics = {EventTopic.TOPIC_EVENT_CREATED}, concurrency = "1")
     public void handleEventCreated(MessagingEventEventCreated data, Acknowledgment acknowledgment) {
         eventService.save(data);
         acknowledgment.acknowledge();
     }
 
 
-    @KafkaListener(topics = {EventTopic.TOPIC_EVENT_UPDATED, }, concurrency = "1", groupId = GROUP_ID)
+    @KafkaListener(topics = {EventTopic.TOPIC_EVENT_UPDATED,}, concurrency = "1")
     public void handleEventUpdated(MessagingEventEventUpdated data, Acknowledgment acknowledgment) {
         eventService.update(data);
         acknowledgment.acknowledge();
     }
 
-    @KafkaListener(topics = {EventTopic.TOPIC_EVENT_SUBSCRIPTION}, concurrency = "3", groupId = GROUP_ID)
+    @KafkaListener(topics = {EventTopic.TOPIC_EVENT_SUBSCRIPTION}, concurrency = "3")
     public void handleEventSubscription(MessagingEventEventSubscription data, Acknowledgment acknowledgment) {
         eventService.subscription(data);
         acknowledgment.acknowledge();

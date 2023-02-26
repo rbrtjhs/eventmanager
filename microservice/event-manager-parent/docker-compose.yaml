@@ -26,6 +26,15 @@ services:
       - ./user/user-service/src/main/resources/sql/:/docker-entrypoint-initdb.d/
     ports:
       - "${USER_DB}:3306"
+  notification-db:
+    image: mysql:8.0.31-debian
+    container_name: notification-service-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./notification/notification-service/src/main/resources/sql/:/docker-entrypoint-initdb.d/
+    ports:
+      - "${NOTIFICATION_DB}:3306"
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.0.1
