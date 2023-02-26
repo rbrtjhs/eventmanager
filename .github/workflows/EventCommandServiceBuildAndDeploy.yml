@@ -17,8 +17,10 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B -pl ./microservice/event-manager-parent/event/event-command-service --also-make clean package -DskipTests -ntp
-  
+      run: |
+        cd microservice/event-manager-parent/
+        mvn -B -pl ./event/event-command-service --also-make clean package -DskipTests -ntp
+
 #  deploy:
 #    runs-on: ubuntu-latest
 #    steps:
