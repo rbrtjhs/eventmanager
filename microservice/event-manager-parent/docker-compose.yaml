@@ -74,3 +74,8 @@ services:
       KAFKA_CLUSTERS_0_NAME: primary #default cluster name
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: 'message-broker:${BROKER_INTERNAL_PORT}'
       KAFKA_CLUSTERS_0_ZOOKEEPER: 'zookeeper:${ZOOKEEPER_CLIENT_PORT}'
+
+  zipkin:
+    image: openzipkin/zipkin:2.24
+    ports:
+      - "${ZIPKIN_PORT}:9411"

@@ -22,6 +22,7 @@
         <!-- in order to comply with spring-boot-starter-web.spring-boot-starter-json -->
         <jackson-databind.version>2.13.4</jackson-databind.version>
         <spring.version>2.7.8</spring.version>
+        <spring-cloud.version>2021.0.5</spring-cloud.version>
         <lombok.version>1.18.24</lombok.version>
         <apache-commons-lang.version>3.12.0</apache-commons-lang.version>
     </properties>
@@ -32,6 +33,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

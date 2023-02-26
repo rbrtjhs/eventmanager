@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.NoSuchElementException;
+
 @Service
 @AllArgsConstructor
 public class EventService {
@@ -91,7 +93,7 @@ public class EventService {
 
     private void checkAggregateExists(AggregateEntity aggregate) {
         if (aggregate == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new NoSuchElementException();
         }
     }
 
