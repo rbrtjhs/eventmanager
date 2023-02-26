@@ -24,7 +24,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file ./microservices/event-manager-parent/pom.xml -ntp
+      run: mvn -B package --file ./microservice/event-manager-parent/pom.xml -ntp
   
 #  deploy:
 #    runs-on: ubuntu-latest
