@@ -2,6 +2,7 @@ package com.robertjuhas.unit.command;
 
 import com.robertjuhas.ddd.command.event.CreateEventCommand;
 import com.robertjuhas.rest.dto.request.CreateEventRequestDTO;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -30,20 +31,18 @@ public class CreateEventCommandUnitTest extends EventCommandUnitTest {
         );
     }
 
-    @ParameterizedTest
-    @MethodSource("nullNegativeValuesCreateEventCommand")
-    public void createEventCommandNullEmptyNegative(CreateEventRequestDTO request, long createdBy) throws NoSuchMethodException {
+    @Test
+    public void createEventCommandNullEmptyNegative() throws NoSuchMethodException {
         var violations = validator.forExecutables().validateConstructorParameters(
-                CreateEventCommand.class.getDeclaredConstructor(CreateEventRequestDTO.class, Long.TYPE),
-                new Object[]{request, createdBy}
+                CreateEventCommand.class.getDeclaredConstructor(CreateEventRequestDTO.class),
+                new Object[]{null}
         );
-        assertThat(violations).hasSize(2);
-    }
+        assertThat(violations).hasSize(1);
 
-    private static Stream<Arguments> nullNegativeValuesCreateEventCommand() {
-        return Stream.of(
-                Arguments.of(null, -5),
-                Arguments.of(null, 0)
+        violations = validator.forExecutables().validateConstructorParameters(
+                CreateEventCommand.class.getDeclaredConstructor(ZonedDateTime.class, Long.TYPE, String.class, String.class, Long.TYPE),
+                new Object[]{null, 0L, " ", "", -5L}
         );
+        assertThat(violations).hasSize(5);
     }
 }

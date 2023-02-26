@@ -9,9 +9,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class UnsubscribeFromEventCommandUnitTest extends EventCommandUnitTest {
     @Test
     public void testNullZero() throws Exception {
-        var violations = validator.forExecutables().validateConstructorParameters(UnsubscribeFromEventCommand.class.getDeclaredConstructor(UnsubscribeFromEventRequestDTO.class, Long.TYPE),
-                new Object[]{null, 0L});
-        assertThat(violations).hasSize(2);
+        var violations = validator.forExecutables().validateConstructorParameters(UnsubscribeFromEventCommand.class.getDeclaredConstructor(UnsubscribeFromEventRequestDTO.class),
+                new Object[]{null});
+        assertThat(violations).hasSize(1);
 
         violations = validator.forExecutables().validateConstructorParameters(UnsubscribeFromEventCommand.class.getDeclaredConstructor(String.class, Long.TYPE),
                 new Object[]{null, 0L});

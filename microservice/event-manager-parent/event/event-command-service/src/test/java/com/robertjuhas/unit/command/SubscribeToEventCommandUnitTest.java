@@ -10,8 +10,8 @@ public class SubscribeToEventCommandUnitTest extends EventCommandUnitTest {
 
     @Test
     public void testNullZero() throws Exception {
-        var violations = validator.forExecutables().validateConstructorParameters(SubscribeToEventCommand.class.getDeclaredConstructor(SubscribeToEventRequestDTO.class, Long.TYPE),
-                new Object[]{null, 0L});
-        assertThat(violations).hasSize(2);
+        var violations = validator.forExecutables().validateConstructorParameters(SubscribeToEventCommand.class.getDeclaredConstructor(SubscribeToEventRequestDTO.class),
+                new Object[]{null});
+        assertThat(violations).hasSize(1);
     }
 }
