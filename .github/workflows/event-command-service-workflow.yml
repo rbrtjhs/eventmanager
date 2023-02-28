@@ -35,8 +35,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push
         uses: docker/build-push-action@v4
-        run:
-          cd microservice/event-manager-parent/event/event-command-service/
         with:
+          context: ./microservice/event-manager-parent/event/event-command-service/
           push: true
           tags: robertjuhas.com/event-command-service:latest
