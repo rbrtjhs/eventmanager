@@ -1,0 +1,21 @@
+name: event-command-service build, test and deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    - name: Compile and test with Maven
+      run: |
+        cd microservice/event-manager-parent/
+        mvn -B -pl ./event/event-command-service --also-make clean verify -ntp
