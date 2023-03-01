@@ -78,7 +78,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ${{ steps.meta.outputs.tags }}:latest
-            ${{ steps.meta.outputs.tags }}:${{ GITHUB_SHA }}
+            ${{ steps.meta.outputs.tags }}:${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
