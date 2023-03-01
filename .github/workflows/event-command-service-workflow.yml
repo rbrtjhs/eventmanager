@@ -77,8 +77,8 @@ jobs:
           context: ./microservice/event-manager-parent/event/event-command-service/
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
-            ${{ steps.meta.outputs.tags }}:latest
-            ${{ steps.meta.outputs.tags }}:${{ github.sha }}
+            ${{ steps.meta.outputs.tags }}
+            ${{ steps.meta.outputs.tags }}:${GITHUB_SHA}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
