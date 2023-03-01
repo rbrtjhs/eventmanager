@@ -23,8 +23,8 @@ jobs:
       run: |
         cd microservice/event-manager-parent/
         mvn -B -pl ./event/event-command-service --also-make clean verify -ntp
-  build:
-
+  docker-build-push:
+    needs: mvn-build-test
     runs-on: ubuntu-latest
     permissions:
       contents: read
