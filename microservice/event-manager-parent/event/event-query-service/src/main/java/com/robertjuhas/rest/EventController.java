@@ -21,7 +21,7 @@ public class EventController {
     }
 
     @GetMapping("/organization/{id}")
-    public ResponseEntity getEventsByOrganization(@PathVariable(name = "id") String userID) {
-        return ResponseEntity.ok(eventService.findByUserID(userID));
+    public ResponseEntity getEventsByOrganization(@PathVariable(name = "id") long userID) {
+        return ResponseEntity.ok(eventService.findByUser(userID));
     }
 }

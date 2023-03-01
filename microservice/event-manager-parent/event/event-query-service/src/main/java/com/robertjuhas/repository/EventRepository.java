@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface EventRepository extends JpaRepository<EventEntity, String> {
 
-    List<EventEntity> findAllByUserID(@Param("userID") String userID);
+    List<EventEntity> findAllByUserID(@Param("userID") long userID);
 }

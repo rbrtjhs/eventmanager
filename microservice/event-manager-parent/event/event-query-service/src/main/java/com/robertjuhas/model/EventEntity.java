@@ -25,7 +25,7 @@ public class EventEntity {
     private ZonedDateTime time;
 
     @Column(name = "user_id")
-    private Long userID;
+    private long userID;
 
     @Column(name = "actual_capacity")
     private long actualCapacity;

@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -25,7 +26,7 @@ public class EventService {
         return eventRepository.findAll();
     }
 
-    public List<EventEntity> findByUserID(String userID) {
+    public List<EventEntity> findByUser(long userID) {
         return eventRepository.findAllByUserID(userID);
     }
 
@@ -54,11 +55,9 @@ public class EventService {
     @Transactional
     public void update(MessagingEventEventUpdated eventUpdated) {
         var eventExists = eventRepository.findById(eventUpdated.aggregateID());
-        if (eventExists.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        checkEvent(eventExists);
         var eventEntity = eventExists.get();
-        boolean eventIsNotProcessed = eventEntity.getEventProcessed().stream().map(x -> x.getEventID()).filter(x -> x.equals(eventUpdated.eventID())).count() == 0;
+        boolean eventIsNotProcessed = checkIfEventIsAlreadyProcessed(eventEntity, eventUpdated.eventID());
         if (eventIsNotProcessed) {
             if (eventUpdated.capacity() != null) {
                 eventEntity.setCapacity(eventUpdated.capacity());
@@ -83,11 +82,9 @@ public class EventService {
     @Transactional
     public void subscription(MessagingEventEventSubscription data) {
         var eventExists = eventRepository.findById(data.aggregateID());
-        if (eventExists.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        checkEvent(eventExists);
         var eventEntity = eventExists.get();
-        boolean eventIsNotProcessed = eventEntity.getEventProcessed().stream().map(x -> x.getEventID()).filter(x -> x.equals(data.eventID())).count() == 0;
+        boolean eventIsNotProcessed = checkIfEventIsAlreadyProcessed(eventEntity, data.eventID());
         if (eventIsNotProcessed) {
             eventEntity.setActualCapacity(eventEntity.getCapacity() + data.value());
             var eventProcessed = new EventProcessed();
@@ -96,5 +93,15 @@ public class EventService {
             eventEntity.getEventProcessed().add(eventProcessed);
             eventRepository.save(eventEntity);
         }
+    }
+
+    private void checkEvent(Optional<EventEntity> eventExists) {
+        if (eventExists.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    private boolean checkIfEventIsAlreadyProcessed(EventEntity entity, long eventID) {
+        return entity.getEventProcessed().stream().map(x -> x.getEventID()).noneMatch(x -> x.equals(eventID));
     }
 }
