@@ -78,15 +78,15 @@ public class EventAggregate {
     }
 
     public AggregateEventUserSubscribed process(@NotNull SubscribeToEventCommand command) {
-        if (rootEntity.getSubscribers().containsKey(command.getUserID())) {
+        if (rootEntity.getSubscribers().containsKey(command.userID())) {
             throw new EventManagerException("User is already subscribed.");
         }
         if (rootEntity.getSubscribers().size() == rootEntity.getCapacity()) {
             throw new EventManagerException("Event is full.");
         }
-        var userData = new UserSubscribedData(command.getTime());
-        rootEntity.getSubscribers().put(command.getUserID(), userData);
-        return new AggregateEventUserSubscribed(command.getUserID(), userData);
+        var userData = new UserSubscribedData(ZonedDateTime.now());
+        rootEntity.getSubscribers().put(command.userID(), userData);
+        return new AggregateEventUserSubscribed(command.userID(), userData);
     }
 
     public AggregateEventUserUnsubscribed process(@NotNull UnsubscribeFromEventCommand command) {

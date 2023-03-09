@@ -1,4 +1,4 @@
-package com.robertjuhas.rest.dto.request;
+package com.robertjuhas.dto.request;
 
 
 import javax.validation.constraints.NotEmpty;

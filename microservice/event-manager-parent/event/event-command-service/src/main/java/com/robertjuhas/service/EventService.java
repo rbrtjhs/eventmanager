@@ -71,7 +71,7 @@ public class EventService {
 
     @Transactional("transactionManager")
     public void subscribeToEvent(SubscribeToEventCommand command) {
-        var aggregateEntity = aggregateRepository.findByIDWithEvents(command.getAggregateID());
+        var aggregateEntity = aggregateRepository.findByIDWithEvents(command.aggregateID());
         checkAggregateExists(aggregateEntity);
         var aggregate = new EventAggregate(aggregateEntity);
         var aggregateEvent = aggregate.process(command);

@@ -1,4 +1,4 @@
-package com.robertjuhas.rest.dto.request;
+package com.robertjuhas.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

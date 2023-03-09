@@ -1,7 +1,8 @@
 package com.robertjuhas.service;
 
-import com.robertjuhas.dto.SubscribeRequest;
-import com.robertjuhas.dto.UserRequest;
+import com.robertjuhas.dto.request.SubscribeRequestDTO;
+import com.robertjuhas.dto.response.UserResponseDTO;
+import com.robertjuhas.dto.request.CreateUserRequestDTO;
 import com.robertjuhas.entity.Subscription;
 import com.robertjuhas.entity.SubscriptionID;
 import com.robertjuhas.entity.User;
@@ -17,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
 @Service
 @AllArgsConstructor
 public class UserService {
@@ -26,10 +29,10 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     @Transactional("transactionManager")
-    public void save(UserRequest userRequest) {
+    public void save(CreateUserRequestDTO userRequest) {
         var user = new User();
-        user.setUsername(userRequest.getUsername());
-        String encodedPassword = passwordEncoder.encode(userRequest.getPassword());
+        user.setUsername(userRequest.username());
+        String encodedPassword = passwordEncoder.encode(userRequest.password());
         user.setPassword(encodedPassword);
         userRepository.save(user);
     }
@@ -53,12 +56,20 @@ public class UserService {
     }
 
     @Transactional("transactionManager")
-    public void subscribe(SubscribeRequest subscribe) {
+    public void subscribe(SubscribeRequestDTO subscribe) {
         var subscription = new Subscription();
         var subscriptionID = new SubscriptionID();
         subscriptionID.setSubscribedTo(subscribe.subscribedTo());
         subscriptionID.setSubscriber(subscribe.subscriber());
         subscription.setId(subscriptionID);
         subscriptionRepository.save(subscription);
+    }
+
+    public UserResponseDTO getUser(long id) {
+        var user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new NoSuchElementException("User with id " + id + " does not exists.");
+        }
+        return new UserResponseDTO(user.get().getId(), user.get().getUsername());
     }
 }

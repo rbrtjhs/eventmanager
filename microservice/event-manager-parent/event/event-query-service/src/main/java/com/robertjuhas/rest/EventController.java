@@ -20,7 +20,7 @@ public class EventController {
         return ResponseEntity.ok(eventService.getAll());
     }
 
-    @GetMapping("/organization/{id}")
+    @GetMapping("/user/{id}")
     public ResponseEntity getEventsByOrganization(@PathVariable(name = "id") long userID) {
         return ResponseEntity.ok(eventService.findByUser(userID));
     }

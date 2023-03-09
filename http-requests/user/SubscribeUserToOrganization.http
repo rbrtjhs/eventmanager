@@ -1,4 +1,4 @@
-POST http://localhost:8082/user/subscribe
+POST http://localhost:8000/user/subscribe
 Content-Type: application/json
 
 {

@@ -14,6 +14,7 @@
         <module>messaging/event-messaging</module>
         <module>messaging/user-messaging</module>
         <module>notification/notification-service</module>
+        <module>api-gateway/api-gateway</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -21,10 +22,13 @@
         <hypersistence-utils-hibernate-55.version>3.1.1</hypersistence-utils-hibernate-55.version>
         <!-- in order to comply with spring-boot-starter-web.spring-boot-starter-json -->
         <jackson-databind.version>2.13.4</jackson-databind.version>
+
         <spring.version>2.7.8</spring.version>
         <spring-cloud.version>2021.0.5</spring-cloud.version>
+
         <lombok.version>1.18.24</lombok.version>
         <apache-commons-lang.version>3.12.0</apache-commons-lang.version>
+
     </properties>
 
     <dependencyManagement>
@@ -85,6 +89,7 @@
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

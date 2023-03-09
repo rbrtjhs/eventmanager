@@ -1,7 +1,6 @@
 package com.robertjuhas.unit.command;
 
 import com.robertjuhas.ddd.command.event.CreateEventCommand;
-import com.robertjuhas.rest.dto.request.CreateEventRequestDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -34,12 +33,6 @@ public class CreateEventCommandUnitTest extends EventCommandUnitTest {
     @Test
     public void createEventCommandNullEmptyNegative() throws NoSuchMethodException {
         var violations = validator.forExecutables().validateConstructorParameters(
-                CreateEventCommand.class.getDeclaredConstructor(CreateEventRequestDTO.class),
-                new Object[]{null}
-        );
-        assertThat(violations).hasSize(1);
-
-        violations = validator.forExecutables().validateConstructorParameters(
                 CreateEventCommand.class.getDeclaredConstructor(ZonedDateTime.class, Long.TYPE, String.class, String.class, Long.TYPE),
                 new Object[]{null, 0L, " ", "", -5L}
         );

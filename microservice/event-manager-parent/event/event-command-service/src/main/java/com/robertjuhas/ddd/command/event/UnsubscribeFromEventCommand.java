@@ -1,13 +1,9 @@
 package com.robertjuhas.ddd.command.event;
 
-import com.robertjuhas.rest.dto.request.UnsubscribeFromEventRequestDTO;
+import com.robertjuhas.ddd.command.EventCommand;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-public record UnsubscribeFromEventCommand(@NotBlank String aggregateID, @Positive long userID) {
-    public UnsubscribeFromEventCommand(@NotNull UnsubscribeFromEventRequestDTO requestDTO) {
-        this(requestDTO.aggregateID(), requestDTO.userID());
-    }
+public record UnsubscribeFromEventCommand(@NotBlank String aggregateID, @Positive long userID) implements EventCommand {
 }

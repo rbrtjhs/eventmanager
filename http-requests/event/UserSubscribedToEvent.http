@@ -1,7 +1,7 @@
-POST http://localhost:8080/event/subscribe
+POST http://localhost:8000/event/subscribe
 Content-Type: application/json
 
 {
-  "aggregateID": "a7b21d7d-7776-47c6-b987-3410f0cda8f8",
-  "userID" : 3
+  "aggregateID": "f420add9-1fcb-4de3-b4b5-bc8ac2a0c32a",
+  "userID" : 4
 }

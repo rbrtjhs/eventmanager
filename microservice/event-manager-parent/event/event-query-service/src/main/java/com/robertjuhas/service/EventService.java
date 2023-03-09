@@ -1,5 +1,6 @@
 package com.robertjuhas.service;
 
+import com.robertjuhas.dto.EventDTO;
 import com.robertjuhas.messaging.dto.MessagingEventEventCreated;
 import com.robertjuhas.messaging.dto.MessagingEventEventSubscription;
 import com.robertjuhas.messaging.dto.MessagingEventEventUpdated;
@@ -15,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -26,8 +28,8 @@ public class EventService {
         return eventRepository.findAll();
     }
 
-    public List<EventEntity> findByUser(long userID) {
-        return eventRepository.findAllByUserID(userID);
+    public List<EventDTO> findByUser(long userID) {
+        return eventRepository.findAllByUserID(userID).stream().map(x -> new EventDTO(x)).collect(Collectors.toList());
     }
 
     @Transactional
@@ -60,7 +62,11 @@ public class EventService {
         boolean eventIsNotProcessed = checkIfEventIsAlreadyProcessed(eventEntity, eventUpdated.eventID());
         if (eventIsNotProcessed) {
             if (eventUpdated.capacity() != null) {
+                //although capacity can be decreased in this case it was meant only to be increased
+                //in other case it should care on command side if it is able to decline reducing capacity of already subscribed users
+                long difference = eventUpdated.capacity() - eventEntity.getCapacity();
                 eventEntity.setCapacity(eventUpdated.capacity());
+                eventEntity.setActualCapacity(eventEntity.getActualCapacity() + difference);
             }
             if (eventUpdated.time() != null) {
                 eventEntity.setTime(eventUpdated.time());
@@ -86,7 +92,9 @@ public class EventService {
         var eventEntity = eventExists.get();
         boolean eventIsNotProcessed = checkIfEventIsAlreadyProcessed(eventEntity, data.eventID());
         if (eventIsNotProcessed) {
-            eventEntity.setActualCapacity(eventEntity.getCapacity() + data.value());
+            //it is minus because actual capacity is reversed - if you unsubscribe you get increased capacity
+            //and unsubscribe event sends -1
+            eventEntity.setActualCapacity(eventEntity.getActualCapacity() - data.value());
             var eventProcessed = new EventProcessed();
             eventProcessed.setEventID(data.eventID());
             eventProcessed.setAggregateID(data.aggregateID());

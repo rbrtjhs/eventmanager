@@ -1,10 +1,10 @@
-PUT http://localhost:8080/event
+PUT http://localhost:8000/event
 Content-Type: application/json
 
 {
-  "aggregateID": "a7b21d7d-7776-47c6-b987-3410f0cda8f8",
+  "aggregateID": "f420add9-1fcb-4de3-b4b5-bc8ac2a0c32a",
   "time" : "2024-02-02T15:00:00.000+0100",
   "place" : "Test place",
-  "capacity" : 100,
+  "capacity" : 150,
   "title" : "Robert!"
 }
