@@ -2,11 +2,8 @@ server:
   port: 8000
 event:
   command:
-    service:
-      uri: http://localhost:8080
+    url: http://localhost:8080
   query:
-    service:
-      uri: http://localhost:8081
+    url: http://localhost:8081
 user:
-  service:
-    uri: http://localhost:8082
+  url: http://localhost:8082
