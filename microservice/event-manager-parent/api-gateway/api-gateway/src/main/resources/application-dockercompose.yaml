@@ -7,3 +7,16 @@ event:
     url: http://event-command-service:8080
 user:
   url: http://user-service:8080
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - gateway
+spring:
+  zipkin:
+    base-url: http://zipkin:9411
