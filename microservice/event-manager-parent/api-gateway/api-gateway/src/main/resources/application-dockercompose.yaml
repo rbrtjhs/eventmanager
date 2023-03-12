@@ -1,0 +1,9 @@
+server:
+  port: 8000
+event:
+  command:
+    url: http://event-command-service:8080
+  query:
+    url: http://event-command-service:8080
+user:
+  url: http://user-service:8080
