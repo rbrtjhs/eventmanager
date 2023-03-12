@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: EventCommand
+  datasource:
+    url:  jdbc:mysql://event-command-db:3306/eventstore
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.MySQL55Dialect
+  kafka:
+    producer:
+      bootstrap-servers: message-broker:29092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      transaction-id-prefix: "event-command-transaction"
+  zipkin:
+    base-url: http://zipkin:9411
+server:
+  port: 8080

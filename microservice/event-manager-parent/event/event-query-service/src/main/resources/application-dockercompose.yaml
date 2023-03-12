@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: EventQuery
+  datasource:
+    url: jdbc:mysql://event-query-db:3306/event_query
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.MySQL55Dialect
+  kafka:
+    consumer:
+      bootstrap-servers: message-broker:29092
+      group-id: event-query-service
+  zipkin:
+    base-url: http://zipkin:9411
+server:
+  port: 8080
+logging:
+  level:
+    org.apache.kafka: INFO #DEBUG

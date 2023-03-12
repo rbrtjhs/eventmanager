@@ -5,7 +5,7 @@ RUN git clone https://github.com/rbrtjhs/eventmanager.git
 FROM maven:3.8-eclipse-temurin-17-alpine AS mvn
 COPY --from=git /app/src /app/src
 WORKDIR /app/src/eventmanager/microservice/event-manager-parent
-RUN mvn -DskipTests -ntp  -am -pl ./event/event-query-service clean package
+RUN mvn -DskipTests -ntp  -am -pl ./event/event-query-service/ clean package
 
 FROM eclipse-temurin:17-alpine
 RUN mkdir /app

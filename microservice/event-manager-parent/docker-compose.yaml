@@ -1,13 +1,13 @@
 services:
   event-command-db:
     image: mysql:8.0.31-debian
-    container_name: event-command-service-db
+    container_name: event-command-db
     environment:
       - MYSQL_ROOT_PASSWORD=root
     volumes:
       - ./event/event-command-service/src/main/resources/sql/:/docker-entrypoint-initdb.d/
-    ports:
-      - "${EVENT_COMMAND_DB}:3306"
+    expose:
+      - 3306
   event-query-db:
     image: mysql:8.0.31-debian
     container_name: event-query-service-db
@@ -15,8 +15,6 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     volumes:
       - ./event/event-query-service/src/main/resources/sql/:/docker-entrypoint-initdb.d/
-    ports:
-      - "${EVENT_QUERY_DB}:3306"
   user-db:
     image: mysql:8.0.31-debian
     container_name: user-service-db
@@ -24,8 +22,6 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     volumes:
       - ./user/user-service/src/main/resources/sql/:/docker-entrypoint-initdb.d/
-    ports:
-      - "${USER_DB}:3306"
   notification-db:
     image: mysql:8.0.31-debian
     container_name: notification-service-db
@@ -33,9 +29,6 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     volumes:
       - ./notification/notification-service/src/main/resources/sql/:/docker-entrypoint-initdb.d/
-    ports:
-      - "${NOTIFICATION_DB}:3306"
-
   zookeeper:
     image: confluentinc/cp-zookeeper:7.0.1
     container_name: zookeeper
@@ -44,7 +37,6 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "${ZOOKEEPER_CLIENT_PORT}:2181"
-
   message-broker:
     image: confluentinc/cp-kafka:7.0.1
     container_name: message-broker
@@ -61,7 +53,6 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     container_name: broker-ui
@@ -74,8 +65,49 @@ services:
       KAFKA_CLUSTERS_0_NAME: primary #default cluster name
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: 'message-broker:${BROKER_INTERNAL_PORT}'
       KAFKA_CLUSTERS_0_ZOOKEEPER: 'zookeeper:${ZOOKEEPER_CLIENT_PORT}'
-
   zipkin:
     image: openzipkin/zipkin:2.24
     ports:
       - "${ZIPKIN_PORT}:9411"
+  ecs:
+    build:
+      context: ./event/event-command-service/
+    depends_on:
+      - event-command-db
+    container_name: event-command-service
+    environment:
+      SPRING_PROFILES_ACTIVE: dockercompose
+  eqs:
+    build:
+      context: ./event/event-query-service/
+    depends_on:
+      - event-query-db
+    container_name: event-query-service
+    environment:
+      SPRING_PROFILES_ACTIVE: dockercompose
+  user:
+    build:
+      context: ./user/user-service/
+    depends_on:
+      - user-db
+    container_name: user-service
+    environment:
+      SPRING_PROFILES_ACTIVE: dockercompose
+  notification:
+    build:
+      context: ./notification/notification-service/
+    depends_on:
+      - notification-db
+    container_name: notification
+    environment:
+      SPRING_PROFILES_ACTIVE: dockercompose
+  api-gateway:
+    build:
+      context: ./api-gateway/api-gateway/
+    container_name: api_gateway
+    ports:
+      - "8080:8080"
+    environment:
+      SERVER_PORT: 8080
+      EVENT_COMMAND_URL: ecs:8080
+      EVENT_QUERY_URL: eqs:8080
